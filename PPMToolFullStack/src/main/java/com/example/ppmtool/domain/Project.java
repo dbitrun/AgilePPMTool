@@ -9,7 +9,7 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String projectname;
+    private String projectName;
     private String projectIdentifier;
     private String description;
     private Date start_date;
@@ -39,12 +39,12 @@ public class Project {
         this.id = id;
     }
 
-    public String getProjectname() {
-        return projectname;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectname(String projectname) {
-        this.projectname = projectname;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public String getProjectIdentifier() {
