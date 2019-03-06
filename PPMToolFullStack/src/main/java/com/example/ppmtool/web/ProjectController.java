@@ -21,20 +21,8 @@ public class ProjectController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
-    @PostMapping("")
+    @PostMapping("") // For Project Create or Update (For Update the field id must be necessary sent by POST in JSON Object)
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
-
-        // if (result.hasErrors()) {
-        //     Map<String, String> errorMap = new HashMap<>();
-        //
-        //     for (FieldError error : result.getFieldErrors()) {
-        //         errorMap.put(error.getField(), error.getDefaultMessage());
-        //     }
-        //
-        //     // return new ResponseEntity<String>("Invalid Project Object", HttpStatus.BAD_REQUEST);
-        //     return new ResponseEntity<Map<String, String>>(errorMap, HttpStatus.BAD_REQUEST);
-        //
-        // }
 
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(result);
         if (errorMap != null) return errorMap;
