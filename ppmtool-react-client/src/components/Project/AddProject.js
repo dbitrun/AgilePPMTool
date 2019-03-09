@@ -19,7 +19,18 @@ class AddProject extends Component {
     description: "",
     start_date: "",
     end_date: "",
+    errors: {}
   };
+
+  // life cycle hooks
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      })
+    }
+
+  }
 
   onChange = (event) => {
     this.setState({
@@ -42,6 +53,8 @@ class AddProject extends Component {
 
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div>
 
@@ -59,6 +72,7 @@ class AddProject extends Component {
                       value={this.state.projectName}
                       onChange={this.onChange}
                     />
+                    <div>{errors.projectName}</div>
                   </div>
                   <div className="form-group">
                     <input
@@ -69,6 +83,7 @@ class AddProject extends Component {
                       // disabled
                     />
                     {/*<!-- disabled for Edit Only!! remove "disabled" for the Create operation -->*/}
+                    <div>{errors.projectIdentifier}</div>
                   </div>
                   <div className="form-group">
                     <textarea
@@ -77,6 +92,7 @@ class AddProject extends Component {
                       value={this.state.description}
                       onChange={this.onChange}
                     />
+                    <div>{errors.description}</div>
                   </div>
                   <h6>Start Date</h6>
                   <div className="form-group">
@@ -112,7 +128,12 @@ class AddProject extends Component {
 }
 
 AddProject.propTypes = {
-  createProject: PropTypes.func.isRequired
+  createProject: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-export default connect(null, { createProject })(AddProject);
+const mapStateToProps = (state) => ({
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { createProject })(AddProject);
