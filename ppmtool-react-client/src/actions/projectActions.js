@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ERRORS, GET_PROJECTS, GET_PROJECT } from "./types";
+import { GET_ERRORS, GET_PROJECTS, GET_PROJECT, DELETE_PROJECT } from "./types";
 
 export const createProject = (project, history) => async (dispatch) => {
   try {
@@ -36,5 +36,20 @@ export const getProject = (id, history) => async dispatch => {
   } catch (error) {
     console.log(error.response.data);
     history.push("/dashboard");
+  }
+};
+
+export const deleteProject = id => async dispatch => {
+  if (window.confirm("Are you sure? This will delete the project and all the data related to it")) {
+    try {
+      await axios.delete(`http://localhost:8080/api/project/${id}`);
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: id
+      });
+    } catch (error) {
+      // console.log(error);
+      alert("An error has occurred. The project can not be deleted!");
+    }
   }
 };
