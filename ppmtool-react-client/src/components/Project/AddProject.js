@@ -94,7 +94,7 @@ class AddProject extends Component {
                       // disabled
                     />
                     {/*<!-- disabled for Edit Only!! remove "disabled" for the Create operation -->*/}
-                    {errors.projectName && (
+                    {errors.projectIdentifier && (
                       <div className="invalid-feedback">{errors.projectIdentifier}</div>
                     )}
                   </div>
@@ -108,7 +108,7 @@ class AddProject extends Component {
                       value={this.state.description}
                       onChange={this.onChange}
                     />
-                    {errors.projectName && (
+                    {errors.description && (
                       <div className="invalid-feedback">{errors.description}</div>
                     )}
                   </div>
