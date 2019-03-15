@@ -114,18 +114,6 @@ public class ProjectTaskService {
     public void deletePTByProjectSequence(String backlog_id, String pt_id) {
         ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
 
-        /*
-        // This code is required, if following relationship is setting for property projectTask in Backlog class
-        // @OneToMany(cascade = CascadeType.ALL, ...)
-        // With following relationship
-        // @OneToMany(cascade = CascadeType.REFRESH, ..., , orphanRemoval=true)
-        // this code is not required
-        Backlog backlog = projectTask.getBacklog();
-        List<ProjectTask> pts = backlog.getProjectTasks();
-        pts.remove(projectTask);
-        backlogRepository.save(backlog);
-        */
-
         projectTaskRepository.delete(projectTask);
     }
 

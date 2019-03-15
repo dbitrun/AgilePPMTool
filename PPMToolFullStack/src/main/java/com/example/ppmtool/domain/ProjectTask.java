@@ -23,7 +23,7 @@ public class ProjectTask {
 
     // ManyToOne with Backlog
     // @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // Removed REFRESH
     @JoinColumn(name = "backlog_id", updatable = false, nullable = false)
     @JsonIgnore
     private Backlog backlog;
