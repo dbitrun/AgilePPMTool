@@ -95,14 +95,38 @@ public class ProjectTaskService {
     public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id) {
         // find existing project task
         // ProjectTask projectTask = projectTaskRepository.findByProjectSequence(updatedTask.getProjectSequence());
-        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(pt_id);
+        // there are all validations in findPTByProjectSequence already
+        ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
+
+        // Additional validation, check if pt_id in url is equal to projectSequence in json body
+        if (!pt_id.equals(updatedTask.getProjectSequence())) {
+            // System.out.println("ProjectTask in URL:  " + pt_id + "\nProjectTask in Body: " + updatedTask.getProjectSequence());
+            throw new ProjectNotFoundException("Project Task ID in URL '" + pt_id + "' is not equals to projectSequence in JSON Body '" + updatedTask.getProjectSequence() + "'");
+        }
 
         // replace it with updated task
         projectTask = updatedTask;
 
         // save update
         return projectTaskRepository.save(projectTask);
+    }
 
+    public void deletePTByProjectSequence(String backlog_id, String pt_id) {
+        ProjectTask projectTask = findPTByProjectSequence(backlog_id, pt_id);
+
+        /*
+        // This code is required, if following relationship is setting for property projectTask in Backlog class
+        // @OneToMany(cascade = CascadeType.ALL, ...)
+        // With following relationship
+        // @OneToMany(cascade = CascadeType.REFRESH, ..., , orphanRemoval=true)
+        // this code is not required
+        Backlog backlog = projectTask.getBacklog();
+        List<ProjectTask> pts = backlog.getProjectTasks();
+        pts.remove(projectTask);
+        backlogRepository.save(backlog);
+        */
+
+        projectTaskRepository.delete(projectTask);
     }
 
 }
