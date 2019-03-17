@@ -26,7 +26,12 @@ export const getBacklog = (backlog_id) =>
         type: GET_BACKLOG,
         payload: res.data
       });
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      // console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+
     }
   };
