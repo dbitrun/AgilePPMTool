@@ -68,7 +68,7 @@ export const updateProjectTask = (backlog_id, pt_id, project_task, history) =>
     }
   };
 
-export const deleteProjectTask = (backlog_id, pt_id, history) =>
+export const deleteProjectTask = (backlog_id, pt_id) =>
   async dispatch => {
     if (window.confirm(`You are deleting project task ${pt_id}, this action cannot be undone`)) {
       try {
