@@ -28,6 +28,7 @@ public class User implements UserDetails {
     private String password;
 
     @Transient
+    // @JsonIgnore // deactivated, because then passwords comparison not working. Workaround s. UserService saveUser()
     private String confirmPassword;
 
     private Date create_At;
