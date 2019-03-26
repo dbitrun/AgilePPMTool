@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/project")
@@ -23,12 +24,12 @@ public class ProjectController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("") // For Project Create or Update (For Update the field id must be necessary sent by POST in JSON Object)
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal) {
 
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(result);
         if (errorMap != null) return errorMap;
 
-        Project project1 = projectService.saveOrUpdateProject(project);
+        Project project1 = projectService.saveOrUpdateProject(project, principal.getName());
         return new ResponseEntity<Project>(project1, HttpStatus.CREATED);
     }
 
