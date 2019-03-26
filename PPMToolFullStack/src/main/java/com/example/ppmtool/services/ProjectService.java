@@ -4,6 +4,7 @@ import com.example.ppmtool.domain.Backlog;
 import com.example.ppmtool.domain.Project;
 import com.example.ppmtool.domain.User;
 import com.example.ppmtool.exceptions.ProjectIdException;
+import com.example.ppmtool.exceptions.ProjectNotFoundException;
 import com.example.ppmtool.repositories.BacklogRepository;
 import com.example.ppmtool.repositories.ProjectRepository;
 import com.example.ppmtool.repositories.UserRepository;
@@ -47,29 +48,36 @@ public class ProjectService {
         }
     }
 
-    public Project findProjectByIdentifier(String projectId) {
+    public Project findProjectByIdentifier(String projectId, String username) {
+        // Only want to return the project if the user looking for it is the owner
+
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
         if (project == null) {
             throw new ProjectIdException("Project ID" + projectId + " does not exists");
+        }
+
+        if (!project.getProjectLeader().equals(username)) {
+            throw new ProjectNotFoundException("Project not found in your account");
         }
 
         return project;
     }
 
-    public Iterable<Project> findAllProjects() {
-        return projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String username) {
+        // return projectRepository.findAll();
+        return projectRepository.findAllByProjectLeader(username);
     }
 
 
-    public void deleteProjectByIdentifier(String projectId) {
-        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+    public void deleteProjectByIdentifier(String projectId, String username) {
+        // Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+        // if (project == null) {
+        //     throw new ProjectIdException("Project ID" + projectId + " does not exists");
+        // }
+        // projectRepository.delete(project);
 
-        if (project == null) {
-            throw new ProjectIdException("Project ID" + projectId + " does not exists");
-        }
-
-        projectRepository.delete(project);
+        projectRepository.delete(findProjectByIdentifier(projectId, username));
 
     }
 }
