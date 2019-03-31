@@ -39,6 +39,10 @@ class ProjectBoard extends Component {
           return (
             <div className="alert alert-danger text-center" role="alert">{errors.projectNotFound}</div>
           );
+        } else if (errors.projectIdentifier) { // Project Identifier Bug
+          return (
+            <div className="alert alert-danger text-center" role="alert">{errors.projectIdentifier}</div>
+          );
         } else {
           return (
             <div className="alert alert-info text-center" role="alert">No Project Tasks on this board</div>
